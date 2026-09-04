@@ -1,6 +1,14 @@
 ---
 import photos from '../data/photos.json';
 const BASE = "https://images-pw.pixieset.com/site/BpdnAE";
+const catLabel = {
+  bodas: 'boda', xv: 'XV años', comunion: 'primera comunión',
+  sesiones: 'sesión fotográfica', cumple: 'cumpleaños',
+  revelacion: 'revelación de género', arte: 'evento artístico'
+};
+const altText = (cat) => cat === 'sesiones'
+  ? 'Sesión fotográfica en Guayaquil — Sara Sánchez'
+  : `Fotografía de ${catLabel[cat]} en Guayaquil — Sara Sánchez`;
 ---
 <section id="galeria" style="background:var(--black)"><div class="container">
   <style>
@@ -39,7 +47,7 @@ const BASE = "https://images-pw.pixieset.com/site/BpdnAE";
   <div class="masonry" id="masonry">
     {photos.map(p => (
       <div class="item" data-cat={p.cat} style={`grid-row:span ${p.h};grid-column:span ${p.w}`} onclick="openLb(this)">
-        <img src={`${BASE}/${p.src}`} alt={p.cat} loading="lazy">
+        <img src={`${BASE}/${p.src}`} alt={altText(p.cat)} loading="lazy">
         <span class="label">{p.cat === 'bodas' ? 'Bodas' : p.cat === 'xv' ? 'XV Años' : p.cat === 'comunion' ? 'Comunión' : p.cat === 'sesiones' ? 'Sesiones' : p.cat === 'cumple' ? 'Cumpleaños' : p.cat === 'revelacion' ? 'Revelación' : 'Artísticos'}</span>
       </div>
     ))}
