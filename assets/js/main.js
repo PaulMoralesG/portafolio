@@ -100,6 +100,11 @@
   var lbBusy = false;
   var preloaded = {};
 
+  function preloadOffsets() {
+    var c = navigator.connection || {};
+    if (c.saveData) { return []; }
+    return /(^|-)(slow-2g|2g|3g)$/.test(c.effectiveType || '') ? [1] : [1, -1];
+  }
   function full(img) { return img.getAttribute('data-full') || img.currentSrc || img.src; }
   function lbShow(i) {
     var src = full(lbList[i]);
@@ -108,7 +113,7 @@
     lbImg.alt = alt;
     lbImg.src = src;
     lbCount.textContent = (i + 1) + ' / ' + lbList.length;
-    [1, -1, 2].forEach(function (o) {
+    preloadOffsets().forEach(function (o) {
       var s = full(lbList[(i + o + lbList.length) % lbList.length]);
       if (!preloaded[s]) { preloaded[s] = true; new Image().src = s; }
     });
@@ -141,6 +146,7 @@
     var next = (lbIdx + dir + lbList.length) % lbList.length;
     var probe = new Image();
     var done = function () {
+      if (!lb.classList.contains('open')) { lbBusy = false; return; }
       lbShow(next);
       lbImg.classList.remove('fade');
       lbBusy = false;
