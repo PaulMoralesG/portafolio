@@ -3,3 +3,8 @@ node_modules/
 *.log
 .env
 .env.*
+
+# Herramientas internas de agentes (no se publican en GitHub Pages)
+.agents/
+.agent/
+CLAUDE.md
