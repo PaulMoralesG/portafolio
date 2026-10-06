@@ -38,7 +38,7 @@ h3{font-size:1.5rem}
 em{font-style:italic;color:var(--rose)}
 section[id]{scroll-margin-top:var(--nav-h)}
 :focus-visible{outline:2px solid var(--rose-light);outline-offset:3px;border-radius:4px}
-.container{width:min(1200px,100% - 3rem);margin-inline:auto}
+.container{width:min(1200px,calc(100% - 3rem - env(safe-area-inset-left) - env(safe-area-inset-right)));margin-inline:auto}
 section{padding:clamp(4rem,9vw,7.5rem) 0}
 .alt{background:var(--bg-2)}
 .skip{position:absolute;left:-999px;top:0;z-index:1000;background:var(--wine);color:#fff;padding:10px 16px;border-radius:0 0 8px 0;text-decoration:none}
@@ -75,7 +75,7 @@ section{padding:clamp(4rem,9vw,7.5rem) 0}
 .nav-links a[aria-current=true]:not(.btn){color:var(--rose-light);box-shadow:inset 0 -2px 0 var(--rose)}
 .nav-links a:hover{color:var(--rose-light)}
 .nav-links .btn{padding:.7rem 1.4rem;min-height:44px;font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:#fff}
-.ham{display:none;flex-direction:column;justify-content:center;gap:5px;width:48px;height:48px;padding:13px;background:none;border:0;cursor:pointer;z-index:52}
+.ham{flex:none;display:none;flex-direction:column;justify-content:center;gap:5px;width:48px;height:48px;padding:13px;background:none;border:0;cursor:pointer;z-index:52}
 .ham span{display:block;height:2px;background:#fff;border-radius:2px;transition:transform .3s,opacity .3s}
 .ham.active span:nth-child(1){transform:translateY(7px) rotate(45deg)}
 .ham.active span:nth-child(2){opacity:0}
@@ -94,8 +94,8 @@ section{padding:clamp(4rem,9vw,7.5rem) 0}
 @keyframes heroZoom{to{transform:scale(1)}}
 .hero-inner{animation:fadeUp 1s var(--ease) both}
 .hero .eyebrow{color:var(--rose-light)}
-@media (max-width:899px){
-  .hero .eyebrow{padding:.4rem .8rem;border-radius:12px;background:rgba(13,13,14,.62);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
+@media (max-width:899px), (max-height:559px){
+  .hero .eyebrow{font-size:.75rem;letter-spacing:.15em;padding:.4rem .8rem;border-radius:12px;background:rgba(13,13,14,.62);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
   .nav:not(.scrolled)::before{content:"";position:absolute;inset:0 0 -28px;background:linear-gradient(rgba(13,13,14,.78),transparent);pointer-events:none;z-index:-1}
 }
 .hero h1{max-width:12ch}
@@ -103,7 +103,7 @@ section{padding:clamp(4rem,9vw,7.5rem) 0}
 .hero p.lead{max-width:34rem;margin:1.6rem 0 2.2rem;font-size:clamp(1.05rem,1.6vw,1.25rem);color:rgba(255,255,255,.86)}
 .hero-cta{display:flex;flex-wrap:wrap;gap:.8rem}
 .hero-types{display:flex;flex-wrap:wrap;gap:.4rem 1.6rem;margin-top:3rem;padding-top:1.4rem;border-top:1px solid rgba(255,255,255,.18);list-style:none;font-size:.78rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.75)}
-@media (min-width:900px){
+@media (min-width:900px) and (min-height:560px){
   .hero{align-items:center;background:radial-gradient(120% 90% at 85% 40%,#2a0711 0%,var(--bg) 60%)}
   .hero::after{display:none}
   .hero-grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:clamp(2rem,6vw,5rem);align-items:center}
@@ -203,10 +203,16 @@ section{padding:clamp(4rem,9vw,7.5rem) 0}
 .contact-links{list-style:none;margin-top:2rem;display:grid;gap:.7rem}
 .contact-links a{display:inline-flex;gap:.7rem;align-items:center;min-height:44px;color:#fff;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.3)}
 .contact-links a:hover{border-color:#fff}
-.form{display:grid;gap:1rem;padding:clamp(1.4rem,3vw,2.2rem);background:rgba(13,13,14,.55);border:1px solid rgba(255,255,255,.14);border-radius:var(--radius);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
-.form label{display:grid;gap:.4rem;font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.8)}
+.contact-links svg{width:20px;height:20px;flex:none}
+.form{min-width:0;display:grid;gap:1rem;padding:clamp(1.4rem,3vw,2.2rem);background:rgba(13,13,14,.55);border:1px solid rgba(255,255,255,.14);border-radius:var(--radius);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+.form label{min-width:0;display:grid;gap:.4rem;font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.8)}
 .form input,.form select,.form textarea{width:100%;min-height:48px;padding:.75rem .9rem;border-radius:10px;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.07);color:#fff;font:400 1rem var(--font-body);letter-spacing:0;text-transform:none}
+.form input,.form select,.form textarea{min-width:0;max-width:100%;box-sizing:border-box}
 .form textarea{min-height:96px;resize:vertical}
+/* iOS Safari: el campo de fecha ignora el ancho y centra el texto */
+.form input[type="date"]{-webkit-appearance:none;appearance:none;display:block;text-align:left;line-height:1.3}
+.form input[type="date"]::-webkit-date-and-time-value{text-align:left;min-height:1.3em}
+.form input[type="date"]::-webkit-datetime-edit{padding:0}
 .form select option{color:#111}
 .form input:focus-visible,.form select:focus-visible,.form textarea:focus-visible{outline:2px solid #fff;outline-offset:1px}
 .form .btn{width:100%;margin-top:.4rem}
@@ -225,6 +231,8 @@ section{padding:clamp(4rem,9vw,7.5rem) 0}
 
 /* ---------- 15. WhatsApp flotante ---------- */
 .float-wa{position:fixed;right:calc(1.4rem + env(safe-area-inset-right));bottom:calc(1.4rem + env(safe-area-inset-bottom));z-index:200;width:58px;height:58px;border-radius:50%;background:var(--wa);display:grid;place-items:center;box-shadow:0 6px 22px rgba(26,127,67,.4);transition:transform .3s;animation:pulse 2.4s infinite}
+.float-wa{transition:opacity .25s,transform .3s}
+.near-contact .float-wa{opacity:0;pointer-events:none;transform:scale(.8);animation:none}
 .float-wa:hover{transform:scale(1.08);animation:none}
 .float-wa svg{width:28px;height:28px;fill:#fff}
 @keyframes pulse{50%{box-shadow:0 6px 30px rgba(26,127,67,.65)}}
@@ -237,9 +245,9 @@ section{padding:clamp(4rem,9vw,7.5rem) 0}
 .lb-img.fade{opacity:0}
 .lb button{position:absolute;z-index:2;display:grid;place-items:center;width:48px;height:48px;border:0;border-radius:50%;background:rgba(255,255,255,.08);color:#fff;font-size:1.8rem;line-height:1;cursor:pointer;transition:background .2s}
 .lb button:hover{background:rgba(255,255,255,.2)}
-.lb-close{top:calc(1rem + env(safe-area-inset-top));right:1rem}
-.lb-prev{left:1rem;top:50%;transform:translateY(-50%)}
-.lb-next{right:1rem;top:50%;transform:translateY(-50%)}
+.lb-close{top:calc(1rem + env(safe-area-inset-top));right:calc(1rem + env(safe-area-inset-right))}
+.lb-prev{left:calc(1rem + env(safe-area-inset-left));top:50%;transform:translateY(-50%)}
+.lb-next{right:calc(1rem + env(safe-area-inset-right));top:50%;transform:translateY(-50%)}
 .lb-count{position:absolute;bottom:1rem;left:50%;transform:translateX(-50%);color:var(--faint);font-size:.8rem;letter-spacing:.14em}
 
 /* ---------- 17. Revelado al hacer scroll (solo con JS) ---------- */
@@ -287,4 +295,17 @@ section{padding:clamp(4rem,9vw,7.5rem) 0}
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
   .js .reveal{opacity:1;transform:none}
+}
+
+/* ---------- 19. Pantallas bajas (celular en horizontal) ---------- */
+html{scroll-padding-bottom:5rem}
+@media (max-height:559px){
+  .hero{padding-top:calc(var(--nav-h) + .6rem);padding-bottom:1.25rem}
+  .hero h1{font-size:clamp(2rem,5.5vw,2.8rem);max-width:none}
+  .hero p.lead{margin:.7rem 0 1rem;font-size:1rem}
+  .hero-types{display:none}
+  .hero .eyebrow{margin-bottom:.4rem}
+  .lb-img{max-width:calc(100vw - 9rem);max-height:calc(100vh - 2rem);max-height:calc(100dvh - 2rem)}
+  .lb-count{bottom:.4rem}
+  .lb-close{top:.5rem}
 }

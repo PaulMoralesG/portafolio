@@ -251,6 +251,14 @@
     targets.forEach(function (t) { t.classList.add('in'); });
   }
 
+  /* ---------- Oculta el botón flotante cuando ya se ve la sección de contacto ---------- */
+  var contact = $('#contacto');
+  if (contact && 'IntersectionObserver' in window) {
+    new IntersectionObserver(function (entries) {
+      document.body.classList.toggle('near-contact', entries[0].isIntersecting);
+    }, { threshold: 0.05 }).observe(contact);
+  }
+
   /* ---------- Año del pie de página ---------- */
   var y = $('#year');
   if (y) { y.textContent = new Date().getFullYear(); }
